@@ -3,7 +3,8 @@ all: build/battle_of_revolution
 
 .PHONY: clean
 clean:
-	rm -rf build objects
+	rm -rf build
+	rm -rf objects
 .PHONY: run 
 run:
 	./build/battle_of_revolution
@@ -25,6 +26,6 @@ build/core: core.c build/libsys.so build/libgame.so build/liblo.so
 
 build/battle_of_revolution: folder build/libsys.so build/core
 	gcc -g battle_of_revolution.c -o build/battle_of_revolution
-	cp -r data build
+	cp res/* build/data
 folder:
-	mkdir -p objects build
+	mkdir -p objects build build/data
