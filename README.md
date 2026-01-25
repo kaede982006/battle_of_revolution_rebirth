@@ -16,7 +16,7 @@
 
 ## 게임 빌드 방법
 
-해당 명령어 집합을 터미널에서 구동하세요. 실행 환경은 위의 [테스트 환경](##테스트환경)과 같습니다.
+해당 명령어 집합을 터미널에서 구동하세요. 실행 환경은 위의 테스트 환경과 같습니다.
 ```
 sudo apt install ffmpeg git make build-essential
 git clone https://github.com/kaede982006/battle_of_revolution_rebirth.git
