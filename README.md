@@ -2,11 +2,16 @@
 
 ## 테스트 환경
 
-**본 게임은 리눅스 환경에서만 동작합니다.** 윈도우나, 맥 OS의 경우 별도의 리눅스 가상머신을 이용하여 이 게임을 구동할 수 있습니다.
-- OS: Ubuntu 24.04.3 LTS x86_64
-- CPU: 12th Gen Intel i5-12400F (12) @ 5.600GHz 
-- GPU: NVIDIA GeForce RTX 3060 
-- Memory: 15831MiB 
+본 게임은 리눅스 환경에서만 동작합니다. 윈도우나 맥 OS의 경우 별도의 리눅스 가상머신을 이용하여 이 게임을 구동할 수 있습니다.
+
+실행/테스트 하드웨어는 동일합니다.
+
+- OS:
+  - Ubuntu 24.04.3 LTS x86_64
+  - Arch Linux x86_64
+- CPU: 12th Gen Intel i5-12400F (12) @ 5.600GHz
+- GPU: NVIDIA GeForce RTX 3060
+- Memory: 15831MiB
 
 ## 게임 설명
 
@@ -16,18 +21,60 @@
 
 ## 게임 빌드 방법
 
-해당 명령어 집합을 터미널에서 구동하세요. 실행 환경은 위의 테스트 환경과 같습니다.
+make는 리소스(오디오)를 자동으로 준비합니다. 내부적으로 scripts/install_resource.sh를 실행하여 res/*.wav 파일을 생성합니다.
+유튜브 정책/지역/로그인 필요 등으로 yt-dlp가 403(Forbidden)을 반환할 수 있습니다. 이 경우 JS 런타임 설치 또는 쿠키가 필요할 수 있습니다(아래 참고).
+
+### Arch Linux
+
+의존 패키지 설치:
+
 ```
-sudo apt install ffmpeg git make build-essential
+sudo pacman -S --needed ffmpeg git make base-devel yt-dlp deno
+```
+
+빌드:
+
+```
 git clone https://github.com/kaede982006/battle_of_revolution_rebirth.git
 cd battle_of_revolution_rebirth
-./install_resource.sh
 make
 ```
+
+### Ubuntu 24.04 / Debian 계열
+
+의존 패키지 설치:
+
+```
+sudo apt update
+sudo apt install -y ffmpeg git make build-essential yt-dlp nodejs
+```
+
+빌드:
+
+```
+git clone https://github.com/kaede982006/battle_of_revolution_rebirth.git
+cd battle_of_revolution_rebirth
+JS_RUNTIME=node make
+```
+
+## 리소스(오디오)만 따로 받기/재생성
+
+```
+chmod +x ./scripts/install_resource.sh
+./scripts/install_resource.sh
+```
+
+자주 쓰는 옵션:
+
+- 기존 파일이 있어도 다시 생성: FORCE=1 ./scripts/install_resource.sh
+- yt-dlp 로그를 그대로 보기: VERBOSE=1 ./scripts/install_resource.sh
+- 403이 계속되면 쿠키 사용:
+  - COOKIES_FILE=/path/to/cookies.txt ./scripts/install_resource.sh
+  - 또는 COOKIES_FROM_BROWSER=chrome ./scripts/install_resource.sh
 
 ## 라이선스
 
 본 프로젝트는 GNU GPL 라이선스를 따릅니다.
 > 자유 소프트웨어 재단(FSF)에서 만든 자유 소프트웨어 라이선스다. 미국의 리처드 스톨만(Richard Stallman)이 GNU-프로젝트로 배포된 프로그램의 라이선스로 사용하기 위해 작성했다. '① 컴퓨터 프로그램을 어떤 목적으로든지 사용할 수 있다 ② 컴퓨터 프로그램의 복사를 언제나 프로그램의 코드와 함께 판매 또는 무료로 배포할 수 있다 ③ 컴퓨터 프로그램의 코드를 용도에 따라 결정할 수 있다 ④ 변경된 컴퓨터 프로그램 역시 프로그램의 코드와 함께 자유로이 배포할 수 있다'라는 네 가지 조항을 명시하고 있다.
 
-출처: [오픈소스 SW 라이선스 종합정보시스템](https://www.olis.or.kr/license/Detailselect.do?lId=1004) 
+출처: [오픈소스 SW 라이선스 종합정보시스템](https://www.olis.or.kr/license/Detailselect.do?lId=1004)

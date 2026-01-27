@@ -1,10 +1,27 @@
 .PHONY: all
-all: build/battle_of_revolution
+all: res fmod build/battle_of_revolution
 
-.PHONY: clean
-clean:
+.PHONY: build
+build: build/battle_of_revolution
+
+.PHONY: remove
+remove: 
 	rm -rf build
 	rm -rf objects
+
+.PHONY: clean
+destroy:
+	rm -rf build
+	rm -rf objects
+	rm res/*.wav
+.PHONY: res 
+res:
+	chmod +x ./scripts/install_resource.sh
+	./scripts/install_resource.sh
+.PHONY: fmod
+fmod:
+	chmod +x ./scripts/install_fmod.sh
+	./scripts/install_fmod.sh
 .PHONY: run 
 run:
 	./build/battle_of_revolution
@@ -20,12 +37,13 @@ build/libgame.so: libgame.c
 	gcc -c -g -fPIC libgame.c -o objects/libgame.o
 	gcc -shared objects/libgame.o -o build/libgame.so
 build/core: core.c build/libsys.so build/libgame.so build/liblo.so
-	cp libfmod.so build/
+	sudo cp /usr/lib/`readlink /usr/lib/libfmod.so` build/libfmod.so
 	gcc -c -g core.c -o objects/core.o
 	g++ objects/core.o -L build -lgame -lsys -lfmod -llo -o build/core
 
 build/battle_of_revolution: folder build/libsys.so build/core
 	gcc -g battle_of_revolution.c -o build/battle_of_revolution
 	cp res/* build/data
+	rm build/data/fmod.tar.xz
 folder:
 	mkdir -p objects build build/data

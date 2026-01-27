@@ -34,7 +34,7 @@ int main() {
         }
         fmod_init();
     }
-    
+
     /* prolog */
     {
         clear();
