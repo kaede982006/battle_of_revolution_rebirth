@@ -9,7 +9,7 @@ remove:
 	rm -rf build
 	rm -rf objects
 
-.PHONY: clean
+.PHONY: destroy
 destroy:
 	rm -rf build
 	rm -rf objects
